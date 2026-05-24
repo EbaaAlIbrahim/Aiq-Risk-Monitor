@@ -2,7 +2,7 @@
 ### **An Enterprise Industrial IoT (IIoT) Decision Support System**
 
 ##  Project Overview
-AIQ Risk Monitor is an advanced, real-time industrial software framework engineered to monitor refinery pipeline telemetry, classify asset degradation footprints, and mitigate fluid anomalies. Inspired by high-performance automation software created by **AIQ** (the joint venture between ADNOC and G42), this application transitions asset safety away from traditional, rigid legacy threshold alarms toward an intelligent, multi-variable AI decision-making network.
+AIQ Risk Monitor is an advanced, real-time industrial software framework engineered to monitor refinery pipeline telemetry, classify asset degradation footprints, and mitigate fluid anomalies.this application transitions asset safety away from traditional, rigid legacy threshold alarms toward an intelligent, multi-variable AI decision-making network.
 
 Operating in a **Continuous Prediction Mode**, the system continuously streams sensor data without halting plant functionality. It cross-analyzes complex fluid mechanics to provide automated, step-by-step mitigation routines for mechanical faults, simulating physical responses like flare stack venting, scraper pigging, segment isolation, and high-pressure nitrogen line purging.
 
