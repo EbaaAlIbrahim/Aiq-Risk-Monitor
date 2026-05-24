@@ -1,0 +1,126 @@
+:host {
+  --bg-dark: #0a0f1d;
+  --panel-bg: #131c33;
+  --neon-green: #00f3ff;
+  --warning-orange: #ff9900;
+  --hazard-red: #ff2a6d;
+  --text-main: #e2e8f0;
+}
+
+.refinery-container {
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: monospace;
+  min-height: 100vh;
+  padding: 30px;
+}
+
+h2 {
+  color: var(--neon-green);
+  border-bottom: 1px solid #1e293b;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.grid-card {
+  background: var(--panel-bg);
+  border: 1px solid #1e293b;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+hr { border: 0; border-top: 1px solid #1e293b; margin: 15px 0; }
+span { font-weight: bold; color: var(--neon-green); }
+
+/* Status Text Indicators Mapping */
+.status-indicator.NORMAL { color: #10b981; }
+.status-indicator.BLOCKAGE_CRITICAL { color: var(--warning-orange); }
+.status-indicator.FATIGUE_CRITICAL { color: var(--hazard-red); }
+.status-indicator.SYSTEM_SHUTDOWN_SAFE { color: #38bdf8; }
+
+/* Real-Time Waveform Graph Styling */
+.chart-panel { border-color: #00f3ff55; }
+.chart-canvas {
+  background-color: #070b14;
+  border: 1px solid #1e293b;
+  height: 120px;
+  border-radius: 4px;
+  margin-top: 15px;
+  position: relative;
+  overflow: hidden;
+}
+.chart-svg { width: 100%; height: 100%; }
+.chart-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 5px;
+}
+
+/* Interactive Action Buttons */
+.control-panel { border-color: #334155; }
+.btn-group { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 15px; }
+.btn {
+  padding: 10px 18px;
+  font-family: monospace;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.2s;
+}
+.btn:hover { opacity: 0.85; }
+.btn-normal { background-color: #3b82f6; color: white; }
+.btn-warning { background-color: #eab308; color: black; }
+.btn-danger { background-color: #ef4444; color: white; }
+
+/* Historical Logs Grid Table */
+.table-panel { border-color: #1e293b; }
+.no-incidents { color: #10b981; font-size: 15px; margin-top: 10px; }
+.table-wrapper { width: 100%; overflow-x: auto; margin-top: 15px; }
+.incident-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 15px; }
+.incident-table th { padding: 12px; border-bottom: 2px solid #1e293b; color: #94a3b8; }
+.incident-table td { padding: 12px; border-bottom: 1px solid #1e293b; }
+
+tr.BLOCKAGE_CRITICAL td { color: var(--warning-orange); background-color: rgba(245, 158, 11, 0.05); }
+tr.FATIGUE_CRITICAL td { color: var(--hazard-red); background-color: rgba(239, 68, 68, 0.05); }
+.table-tag { font-weight: bold; }
+
+/* Clear Records Link Button */
+.btn-clear {
+  background: transparent;
+  border: 1px solid #475569;
+  color: #94a3b8;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 3px;
+  margin-left: 15px;
+  font-family: monospace;
+}
+.btn-clear:hover { background-color: #1e293b; color: white; }
+
+/* Emergency Interlock Notification Banner */
+.emergency-alert-banner {
+  background-color: #ef4444;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 15px;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  border: 2px solid #b91c1c;
+  box-shadow: 0 0 25px rgba(239, 68, 68, 0.45);
+  line-height: 1.4;
+  animation: flashDanger 1s infinite alternate;
+}
+
+@keyframes flashDanger {
+  from { background-color: #ef4444; }
+  to { background-color: #991b1b; }
+}

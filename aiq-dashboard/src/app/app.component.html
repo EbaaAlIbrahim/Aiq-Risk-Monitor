@@ -1,0 +1,106 @@
+<div class="refinery-container">
+  
+  <h2>AIQ Risk Monitor v1.0</h2>
+
+  @if (!currentData) {
+    <p>🔄 Connecting to live Python telemetry stream...</p>
+  }
+
+  @if (currentData) {
+    
+    <!-- DYNAMIC BLOCKAGE STEP PANEL ALERT BANNER -->
+    @if (currentData.system_mode === 'BLOCKAGE_MITIGATION') {
+      <div class="emergency-alert-banner" style="background-color: #ff9900; border-color: #d97706; box-shadow: 0 0 25px rgba(245,158,11,0.45); animation: none;">
+        ⚠️ AUTOMATED MITIGATION ACTIVE: AI predicted an internal obstruction footprint [1, 2]. Plant Automation Framework is currently executing corrective steps:<br>
+        <span style="color: white; font-size: 16px; text-decoration: underline;">{{ currentData.mitigation_step }}</span>
+      </div>
+    }
+
+    <!-- DYNAMIC LEAK STEP PANEL ALERT BANNER -->
+    @if (currentData.system_mode === 'LEAK_MITIGATION') {
+      <div class="emergency-alert-banner">
+        CRITICAL MITIGATION ACTIVE: AI predicted structural fatigue/leakage [1, 2]. Emergency shutdown loop has taken active priority control:<br>
+        <span style="color: yellow; font-size: 16px; text-decoration: underline;">{{ currentData.mitigation_step }}</span>
+      </div>
+    }
+
+    <!-- Telemetry Readout Grid -->
+    <div class="grid-card">
+      <h3>Asset ID: {{ currentData.pipeline_id }}</h3>
+      <p> Diagnostic Status: <span class="status-indicator" [className]="currentData.status">{{ currentData.status }}</span></p>
+      <p>Operation Mode: <span>{{ currentData.system_mode }}</span></p>
+      <p>Main Valve: <span>{{ currentData.valve_status }}</span></p>
+      <hr>
+      <p> Pressure: {{ currentData.metrics.pressure_psi }} PSI</p>
+      <p>Temperature: {{ currentData.metrics.temperature_f }} °C</p>
+      <p> Flow Rate: {{ currentData.metrics.flow_rate_bph }} GPM</p>
+      <p> Pump Velocity: {{ currentData.metrics.pump_speed_rpm }} RPM</p>
+      <p> Current Draw: {{ currentData.metrics.energy_kw }} kW</p>
+    </div>
+
+    <!-- Real-Time Line Chart -->
+    <div class="grid-card chart-panel">
+      <h3> Real-Time Pipeline Pressure Waveform (Rolling 20s)</h3>
+      <div class="chart-canvas">
+        <svg viewBox="0 0 500 120" preserveAspectRatio="none" class="chart-svg">
+          <line x1="0" y1="30" x2="500" y2="30" stroke="#1e293b" stroke-dasharray="4"/>
+          <line x1="0" y1="60" x2="500" y2="60" stroke="#1e293b" stroke-dasharray="4"/>
+          <line x1="0" y1="90" x2="500" y2="90" stroke="#1e293b" stroke-dasharray="4"/>
+          @if (pressureHistory.length > 1) {
+            <polyline fill="none" stroke="#00f3ff" stroke-width="3" [attr.points]="svgPathCoordinates" />
+          }
+        </svg>
+      </div>
+      <div class="chart-labels">
+        <span>Past 20s</span>
+        <span>Current Moment</span>
+      </div>
+    </div>
+
+    <!-- Control Panel Override Deck -->
+    <div class="grid-card control-panel">
+      <h3> Plant Commander Override Panel</h3>
+      <div class="btn-group">
+        <button (click)="triggerSystemMode('AUTO')" class="btn btn-normal">Enable Auto Mode</button>
+        <button (click)="triggerSystemMode('FORCE_LEAK')" class="btn btn-warning">Simulate Pipe Degradation (Leak)</button>
+        <button (click)="toggleEmergencyValve('CLOSED')" class="btn btn-danger">🚨 EMERGENCY ESD CUTOFF</button>
+        <button (click)="toggleEmergencyValve('OPEN')" class="btn btn-normal">Reset Valve Open</button>
+      </div>
+    </div>
+
+    <!-- Historical Incident Log Table Component -->
+    <div class="grid-card table-panel">
+      <h3> AI Risk Incident Audit History Log <button (click)="clearAuditHistory()" class="btn-clear">Clear Records</button></h3>
+      
+      @if (incidentHistory.length === 0) {
+        <p class="no-incidents">✓ Operational safety baseline clean. No pipeline anomalies recorded.</p>
+      } @else {
+        <div class="table-wrapper">
+          <table class="incident-table">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Asset Tag ID</th>
+                <th>Diagnostic Flag</th>
+                <th>Pressure</th>
+                <th>Flow Velocity</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (log of incidentHistory; track log.timestamp) {
+                <tr [className]="log.issueType">
+                  <td>{{ log.timestamp }}</td>
+                  <td>{{ log.assetId }}</td>
+                  <td><span class="table-tag">{{ log.issueType }}</span></td>
+                  <td>{{ log.pressure }} PSI</td>
+                  <td>{{ log.flow }} GPM</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  }
+
+</div>

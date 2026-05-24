@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AIQ Stream Test</title>
+    <style>
+        body { font-family: monospace; background: #121212; color: #00ff00; padding: 20px; }
+        .card { background: #1e1e1e; border: 1px solid #333; padding: 15px; border-radius: 5px; margin-bottom: 15px; }
+        .CRITICAL { color: #ff3333; font-weight: bold; border-color: #ff3333; animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0.5; } }
+    </style>
+</head>
+<body>
+
+    <h2>📡 AIQ Telemetry Live Feed Test</h2>
+    <p>Status: <span id="connection-status" style="color: yellow;">Connecting...</span></p>
+
+    <div id="dashboard-card" class="card">
+        <h3>Pipeline: <span id="pipe-id">---</span></h3>
+        <p>📊 Pressure: <span id="press">0</span> PSI</p>
+        <p>🌡️ Temperature: <span id="temp">0</span> °F</p>
+        <p>💧 Flow Rate: <span id="flow">0</span> BPH</p>
+        <p>🚨 System Alert: <span id="alert-status">UNKNOWN</span></p>
+    </div>
+
+    <script>
+        // Connect directly to our Python WebSocket Server
+        const socket = new WebSocket('ws://localhost:8765');
+        const statusEl = document.getElementById('connection-status');
+        const cardEl = document.getElementById('dashboard-card');
+
+        socket.onopen = () => {
+            statusEl.innerText = "CONNECTED 🟢";
+            statusEl.style.color = "#00ff00";
+        };
+
+        socket.onmessage = (event) => {
+            // Parse the live JSON packet coming from Python
+            const data = JSON.parse(event.data);
+            
+            // Update the HTML text elements with live telemetry values
+            document.getElementById('pipe-id').innerText = data.pipeline_id;
+            document.getElementById('press').innerText = data.metrics.pressure_psi;
+            document.getElementById('temp').innerText = data.metrics.temperature_f;
+            document.getElementById('flow').innerText = data.metrics.flow_rate_bph;
+            document.getElementById('alert-status').innerText = data.status;
+
+            // Handle industrial anomaly visual styling
+            if (data.status === "CRITICAL_PRESSURE") {
+                cardEl.className = "card CRITICAL";
+            } else {
+                cardEl.className = "card";
+            }
+        };
+
+        socket.onclose = () => {
+            statusEl.innerText = "DISCONNECTED 🔴";
+            statusEl.style.color = "#ff3333";
+        };
+    </script>
+</body>
+</html>
