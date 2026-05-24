@@ -1,4 +1,4 @@
-# AIQ Pipeline Risk Monitor & Predictive Flare Controller (v1.0)
+# AIQ Pipeline Risk Monitor
 ### **An Enterprise Industrial IoT (IIoT) Decision Support System**
 
 ##  Project Overview
