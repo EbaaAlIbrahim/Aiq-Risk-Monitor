@@ -1,5 +1,4 @@
 # AIQ Pipeline Risk Monitor
-### **An Enterprise Industrial IoT (IIoT) Decision Support System**
 
 ##  Project Overview
 AIQ Risk Monitor is an advanced, real-time industrial software framework engineered to monitor refinery pipeline telemetry, classify asset degradation footprints, and mitigate fluid anomalies.this application transitions asset safety away from traditional, rigid legacy threshold alarms toward an intelligent, multi-variable AI decision-making network.
